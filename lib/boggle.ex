@@ -10,4 +10,17 @@ defmodule Boggle do
     :error  
   end
 
+  def getNeighbours({x,y}) do
+    [{x-1,y-1}, {x, y-1}, {x+1, y-1}, {x+1, y}, {x+1, y+1}, {x, y+1}, {x-1, y+1}, {x-1, y}]
+  end
+  def filterNeighbours([], board, acc), do: Enum.reverse(acc)
+  def filterNeighbours([{x,y} | t], board, acc) do
+    cond do
+      x < 0 or y < 0 -> filterNeighbours(t, board, acc)
+      x >= tuple_size(board) or y >= tuple_size(board) -> filterNeighbours(t, board, acc)
+      true -> filterNeighbours(t, board, [{x,y} | acc])
+    end
+  end
+
+
 end
