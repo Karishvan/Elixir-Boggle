@@ -10,8 +10,9 @@ defmodule Boggle do
     :error  
   end
 
-  def getNeighbours({x,y}) do
-    [{x-1,y-1}, {x, y-1}, {x+1, y-1}, {x+1, y}, {x+1, y+1}, {x, y+1}, {x-1, y+1}, {x-1, y}]
+  def getNeighbours({x,y}, board) do
+    adjacentTiles = [{x-1,y-1}, {x, y-1}, {x+1, y-1}, {x+1, y}, {x+1, y+1}, {x, y+1}, {x-1, y+1}, {x-1, y}]
+    filterNeighbours(adjacentTiles, board, [])
   end
   def filterNeighbours([], board, acc), do: Enum.reverse(acc)
   def filterNeighbours([{x,y} | t], board, acc) do
