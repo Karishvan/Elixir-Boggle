@@ -20,14 +20,15 @@ defmodule Boggle do
         row = put_elem(elem(board, x), y, "*")
         board = put_elem(board, x, row)
         visit = recursiveDFS(board, {x,y}, String.slice(word, 1..-1//1))
-        path = false
-        cond do
-          visit != false -> path = [ {x,y} | visit]
-          true -> false
-        end
+        #path = false
+        # cond do
+        #   visit != false -> path = [ {x,y} | visit]
+        #   true -> false
+        # end
+        path = [ {x,y} | visit]
         #path = [ {x,y} | recursiveDFS(board, {x,y}, String.slice(word, 1..-1//1)) ] #fix this
-        row = put_elem(elem(board, x), y, letter)
-        board = put_elem(board, x, row)
+        # row = put_elem(elem(board, x), y, letter)
+        # board = put_elem(board, x, row)
         path
       true -> 
         recursiveDFS(board, t, word)
