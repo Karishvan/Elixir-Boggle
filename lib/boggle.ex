@@ -26,7 +26,7 @@ defmodule Boggle do
         #   true -> false
         # end
         # path = [ {x,y} | visit]
-        isFound({x,y}, visit)
+        isFound(board, {x,y}, t, visit, word)
         #path = [ {x,y} | recursiveDFS(board, {x,y}, String.slice(word, 1..-1//1)) ] #fix this
         # row = put_elem(elem(board, x), y, letter)
         # board = put_elem(board, x, row)
@@ -35,8 +35,8 @@ defmodule Boggle do
         recursiveDFS(board, t, word)
     end
   end
-  def isFound(point, flag) when flag != false, do: [ point | flag]
-  def isFound(point, flag), do: false
+  def isFound(_, point, _, flag, _) when flag != false, do: [ point | flag]
+  def isFound(board, _, t, _, word), do: recursiveDFS(board, t, word)
 
   def getNeighbours({x,y}, board) do
     adjacentTiles = [{x-1,y-1}, {x, y-1}, {x+1, y-1}, {x+1, y}, {x+1, y+1}, {x, y+1}, {x-1, y+1}, {x-1, y}]
