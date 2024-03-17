@@ -6,12 +6,12 @@ defmodule Boggle do
   """
 
   def boggle(board, words), do: boggle(board, words, %{})
-  def boggle(board, [], map), do: map
+  def boggle(_board, [], map), do: map
   def boggle(board, [word | restOfWords], map), do: boggle(board, restOfWords, addWordToMap(board, word, map))
 
-  def recursiveDFS(board, [{x,y} | _ ], ""), do: []
+  def recursiveDFS(_board, [{_x,_y} | _ ], ""), do: []
   def recursiveDFS(board, {x,y}, word), do: recursiveDFS(board, getNeighbours({x,y}, board), word)
-  def recursiveDFS(board, [], word), do: false
+  def recursiveDFS(_board, [], _word), do: false
   def recursiveDFS(board, [{x,y} | t], word) do
    letter = elem(elem(board, x),y)
      cond do
@@ -56,7 +56,7 @@ defmodule Boggle do
     adjacentTiles = [{x-1,y-1}, {x, y-1}, {x+1, y-1}, {x+1, y}, {x+1, y+1}, {x, y+1}, {x-1, y+1}, {x-1, y}]
     filterNeighbours(adjacentTiles, board, [])
   end
-  def filterNeighbours([], board, acc), do: acc
+  def filterNeighbours([], _board, acc), do: acc
   def filterNeighbours([{x,y} | t], board, acc) do
     cond do
       x < 0 or y < 0 -> filterNeighbours(t, board, acc)
