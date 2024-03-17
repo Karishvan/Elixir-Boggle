@@ -52,7 +52,7 @@ defmodule Boggle do
     adjacentTiles = [{x-1,y-1}, {x, y-1}, {x+1, y-1}, {x+1, y}, {x+1, y+1}, {x, y+1}, {x-1, y+1}, {x-1, y}]
     filterNeighbours(adjacentTiles, board, [])
   end
-  def filterNeighbours([], board, acc), do: Enum.reverse(acc)
+  def filterNeighbours([], board, acc), do: acc
   def filterNeighbours([{x,y} | t], board, acc) do
     cond do
       x < 0 or y < 0 -> filterNeighbours(t, board, acc)
