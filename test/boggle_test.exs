@@ -2,7 +2,7 @@ defmodule BoggleTest do
   use ExUnit.Case
   doctest Boggle
 
-  test "4x4_mass " do 
+  test "test_1_mass_4x4 " do 
     {:ok, raw} = File.read("lists/word_list_500.txt")
     words = raw |> String.split("\r\n", trim: true)
     dice_list = [ "rifobx", "ifehey", "denows", "utoknd", "hmsrao", "lupets", "acitoa", "ylgkue", 
@@ -19,7 +19,7 @@ defmodule BoggleTest do
     IO.puts "MASS 4x4 Passed"
   end
 
-  test "2x2_given " do
+  test "test_2a_given_2x2 " do
     {:ok, raw} = File.read("lists/word_list_3000.txt")
     words = raw |> String.split("\r\n", trim: true)
     board = { {"e", "a"}, 
@@ -36,10 +36,9 @@ defmodule BoggleTest do
 
     score = getScore found
     IO.puts "2x2 SCORE: #{score}"
-
   end
 
-  test "4x4_given " do 
+  test "test_2b_given_4x4 " do 
     {:ok, raw} = File.read("lists/word_list_3000.txt")
     words = raw |> String.split("\r\n", trim: true)
     board = { {"i", "s", "u", "o"}, 
@@ -58,10 +57,49 @@ defmodule BoggleTest do
 
     score = getScore found
     IO.puts "4x4 SCORE: #{score}"
-
   end
 
-  test "8x8_large " do 
+  test "test_3a_small_2x2 " do
+    {:ok, raw} = File.read("lists/word_list_scrabble_2019.txt")
+    words = raw |> String.split("\r\n", trim: true)
+    board = { {"e", "a"}, 
+              {"s", "t"} }
+
+    found = Boggle.boggle board, words
+
+    a1 = validate_return_type found 
+    assert a1, "Return type not correct"
+    a2 = wordsLegal? found, words 
+    assert a2, "Returned words not in list"
+    a3 = wordsInBoard? found, board
+    assert a3, "Returned words not in board"
+
+    score = getScore found
+    IO.puts "2x2 SCORE: #{score}"
+  end
+
+  test "test_3b_medium_4x4 " do 
+    {:ok, raw} = File.read("lists/word_list_scrabble_2019.txt")
+    words = raw |> String.split("\r\n", trim: true)
+    board = { {"i", "s", "u", "o"}, 
+              {"o", "s", "v", "e"}, 
+              {"n", "e", "p", "a"}, 
+              {"n", "t", "s", "u"} }
+
+    found = Boggle.boggle board, words
+
+    a1 = validate_return_type found 
+    assert a1, "Return type not correct"
+    a2 = wordsLegal? found, words 
+    assert a2, "Returned words not in list"
+    a3 = wordsInBoard? found, board
+    assert a3, "Returned words not in board"
+
+    score = getScore found
+    IO.puts "4x4 SCORE: #{score}"
+  end
+
+  test "test_3c_large_8x8 " do 
     {:ok, raw} = File.read("lists/word_list_scrabble_2019.txt")
     words = raw |> String.split("\r\n", trim: true)
     board = { {"o", "c", "n", "e", "a", "s", "r", "a"}, 
@@ -84,10 +122,9 @@ defmodule BoggleTest do
 
     score = getScore found
     IO.puts "8x8 SCORE: #{score}"
-
   end
 
-  test "16x16_mega " do 
+  test "test_3d_mega_16x16 " do 
     {:ok, raw} = File.read("lists/word_list_scrabble_2019.txt")
     words = raw |> String.split("\r\n", trim: true)
     board = { {"a", "q", "o", "a", "u", "s", "i", "e", "a", "r", "t", "u", "e", "l", "r", "o"}, 
@@ -118,7 +155,6 @@ defmodule BoggleTest do
 
     score = getScore found
     IO.puts "16x16 SCORE: #{score}"
-
   end
 
   def validate_return_type(found) when not (is_map found), do: false
