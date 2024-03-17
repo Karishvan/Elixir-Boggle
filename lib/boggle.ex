@@ -5,10 +5,9 @@ defmodule Boggle do
     Test your code by running 'mix test' from the tester_ex_simple directory.
   """
 
-  def boggle(board, words) do
-    # Your code here!
-    :error  
-  end
+  def boggle(board, words), do: boggle(board, words, %{})
+  def boggle(board, [], map), do: map
+  def boggle(board, [word | restOfWords], map), do: boggle(board, restOfWords, addWordToMap(board, word, map))
 
   def recursiveDFS(board, [{x,y} | _ ], ""), do: []
   def recursiveDFS(board, {x,y}, word), do: recursiveDFS(board, [{x,y} | getNeighbours({x,y}, board)], word)
@@ -37,7 +36,18 @@ defmodule Boggle do
   end
   def isFound(_, point, _, flag, _) when flag != false, do: [ point | flag]
   def isFound(board, _, t, _, word), do: recursiveDFS(board, t, word)
+  
 
+  def addWordToMap(board, word, mapOfWords) do
+    allPoints = for x <- 0..tuple_size(board)-1, y <- 1..tuple_size(board)-1, do: {x,y}
+    path = recursiveDFS(board, allPoints, word)
+    cond do
+       path != false -> Map.put(mapOfWords, word, path)
+       true -> mapOfWords
+    end
+  end
+
+  #defp checkXandY({x,y}, board), do: x < tuple_size(board) && x >= 0 && y < tuple_size(board) && y >= 0
   def getNeighbours({x,y}, board) do
     adjacentTiles = [{x-1,y-1}, {x, y-1}, {x+1, y-1}, {x+1, y}, {x+1, y+1}, {x, y+1}, {x-1, y+1}, {x-1, y}]
     filterNeighbours(adjacentTiles, board, [])
