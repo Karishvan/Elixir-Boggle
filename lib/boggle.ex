@@ -39,7 +39,8 @@ defmodule Boggle do
   
 
   def addWordToMap(board, word, mapOfWords) do
-    allPoints = for x <- 0..tuple_size(board)-1, y <- 1..tuple_size(board)-1, do: {x,y}
+    allPoints = for x <- 0..tuple_size(board)-1, y <- 0..tuple_size(board)-1, do: {x,y}
+    #IO.inspect(allPoints)
     path = recursiveDFS(board, allPoints, word)
     cond do
        path != false -> Map.put(mapOfWords, word, path)
