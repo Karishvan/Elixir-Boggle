@@ -10,12 +10,14 @@ defmodule Boggle do
   def boggle(board, [word | restOfWords], map), do: boggle(board, restOfWords, addWordToMap(board, word, map))
 
   def recursiveDFS(board, [{x,y} | _ ], ""), do: []
-  def recursiveDFS(board, {x,y}, word), do: recursiveDFS(board, [{x,y} | getNeighbours({x,y}, board)], word)
+  def recursiveDFS(board, {x,y}, word), do: recursiveDFS(board, getNeighbours({x,y}, board), word)
   def recursiveDFS(board, [], word), do: false
   def recursiveDFS(board, [{x,y} | t], word) do
    letter = elem(elem(board, x),y)
      cond do
       (letter == String.at(word, 0)) -> 
+        # IO.inspect({x,y})
+        # IO.inspect(board)
         row = put_elem(elem(board, x), y, "*")
         board = put_elem(board, x, row)
         visit = recursiveDFS(board, {x,y}, String.slice(word, 1..-1//1))
@@ -25,10 +27,11 @@ defmodule Boggle do
         #   true -> false
         # end
         # path = [ {x,y} | visit]
+        row = put_elem(elem(board, x), y, letter)
+        board = put_elem(board, x, row)
         isFound(board, {x,y}, t, visit, word)
         #path = [ {x,y} | recursiveDFS(board, {x,y}, String.slice(word, 1..-1//1)) ] #fix this
-        # row = put_elem(elem(board, x), y, letter)
-        # board = put_elem(board, x, row)
+        
         # path
       true -> 
         recursiveDFS(board, t, word)
